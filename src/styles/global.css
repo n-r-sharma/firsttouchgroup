@@ -23,23 +23,33 @@
 }
 
 :root {
-  --navy: #0b1828;
-  --navy-mid: #12233a;
-  --navy-soft: #1b3252;
-  --ivory: #f6f3ed;
-  --ivory-deep: #e9e4da;
-  --white: #ffffff;
-  --gold: #c4a35a;
-  --gold-bright: #d4b56c;
-  --gold-on-dark: #e8c98a;
-  --gold-on-light: #6b4e16;
-  --ink: #142033;
-  --muted: #5b6573;
+  /* Deep desaturated blue — calmer than the old bright navy */
+  --navy: #0c1a2b;
+  --navy-mid: #14273d;
+  --navy-soft: #1f3a5c;
+  /* Neutral warm-grey surfaces instead of pure white */
+  --ivory: #f2f1ee;
+  --ivory-deep: #e5e4e0;
+  --white: #fbfbfa;
+  /* Steel-blue accent replaces gold */
+  --gold: #3e6b96;
+  --gold-bright: #9dbedf;
+  --gold-on-dark: #a8c6e4;
+  --gold-on-light: #2e5479;
+  --ink: #16222f;
+  --muted: #5d6672;
   --error: #8b2e2e;
   --error-soft: #f6e4e1;
   --success: #1e4a38;
   --success-soft: #dceae3;
-  --ring: #c4a35a;
+  --ring: #3e6b96;
+  /* Frosted glass materials */
+  --glass-light: rgb(251 251 250 / 0.68);
+  --glass-light-strong: rgb(251 251 250 / 0.86);
+  --glass-dark: rgb(12 26 43 / 0.48);
+  --glass-border-light: rgb(255 255 255 / 0.55);
+  --glass-border-dark: rgb(255 255 255 / 0.28);
+  --glass-blur: blur(20px) saturate(160%);
   --font-body: "DistinctDiatype", "Helvetica Neue", Helvetica, Arial, sans-serif;
   --font-display: var(--font-body);
   --font-accent: "ESFace", "Iowan Old Style", Baskerville, Georgia, serif;
@@ -284,7 +294,7 @@ p {
 
 .slab--navy .lede,
 .slab--flush .lede {
-  color: rgb(243 238 228 / 0.78);
+  color: rgb(251 251 250 / 0.78);
 }
 
 .actions {
@@ -320,7 +330,7 @@ p {
 
 .button--ghost {
   background: transparent;
-  border-color: rgb(243 238 228 / 0.55);
+  border-color: rgb(251 251 250 / 0.55);
   color: var(--ivory);
 }
 
@@ -341,7 +351,7 @@ p {
   }
 
   .button--ghost:hover {
-    background: rgb(243 238 228 / 0.1);
+    background: rgb(251 251 250 / 0.1);
     border-color: var(--ivory);
     color: var(--ivory);
   }
