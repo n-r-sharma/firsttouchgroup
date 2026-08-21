@@ -92,7 +92,6 @@ export const navigation = [
   { href: "/#services", label: "Services" },
   { href: "/#sectors", label: "Sectors" },
   { href: "/#process", label: "Process" },
-  { href: "/#quote", label: "Quote" },
 ] as const;
 
 export const heroSlides = [
