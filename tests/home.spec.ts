@@ -64,8 +64,19 @@ test.describe("services and sectors", () => {
 
   test("sector action prefills property type", async ({ page }) => {
     await page.goto("/");
-    await page.getByRole("button", { name: /quote for boutique hotels/i }).click();
-    await expect(page.locator("#property-type")).toHaveValue("hotels");
+    await page.getByRole("button", { name: "Show details for Retail & showrooms" }).click();
+    await page.getByRole("button", { name: /quote for your retail space/i }).click();
+    await expect(page.locator("#property-type")).toHaveValue("retail");
+  });
+
+  test("sector stories move between four selectable panels", async ({ page }) => {
+    await page.goto("/#sectors");
+    const cards = page.locator("[data-sector-card]");
+    await expect(cards).toHaveCount(4);
+    await expect(cards.nth(0)).toHaveClass(/is-active/);
+    await page.getByRole("button", { name: "Next sector" }).click();
+    await expect(cards.nth(1)).toHaveClass(/is-active/);
+    await expect(page.getByRole("button", { name: /quote for your hotel/i })).toBeVisible();
   });
 
   test("service scroller controls move in both directions around the loop", async ({ page }) => {

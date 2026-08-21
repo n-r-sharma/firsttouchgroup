@@ -1,4 +1,6 @@
 ---
+import { Image } from "astro:assets";
+import cleaningTeamCharacters from "../assets/illustrations/cleaning-team-characters.svg";
 import { trustItems } from "../data/site.ts";
 ---
 
@@ -9,6 +11,13 @@ import { trustItems } from "../data/site.ts";
         <p class="eyebrow">Why First Touch</p>
         <h2 id="trust-heading">A cleaning team you know, backed by <em>visible checks.</em></h2>
       </div>
+      <Image
+        src={cleaningTeamCharacters}
+        alt=""
+        class="trust-slab__characters"
+        aria-hidden="true"
+        inferSize
+      />
       <ul class="trust-grid">
         {trustItems.map((item, index) => (
           <li>
@@ -41,7 +50,8 @@ import { trustItems } from "../data/site.ts";
     box-shadow: var(--shadow-card);
   }
 
-  .trust-slab > * {
+  .trust-slab__header,
+  .trust-grid {
     position: relative;
     z-index: 1;
   }
@@ -52,9 +62,22 @@ import { trustItems } from "../data/site.ts";
     max-width: 52rem;
   }
 
+  .trust-slab__characters {
+    display: none;
+    position: absolute;
+    z-index: 0;
+    top: clamp(1.75rem, 2vw, 2.25rem);
+    right: clamp(0.75rem, 1.2vw, 1.25rem);
+    width: auto;
+    height: clamp(17rem, 23vw, 23rem);
+    opacity: 0.82;
+    pointer-events: none;
+    user-select: none;
+  }
+
   h2 {
     font-size: clamp(2.5rem, 4.7vw, 5rem);
-    font-weight: 480;
+    font-weight: var(--weight-regular);
     line-height: 1;
   }
 
@@ -80,7 +103,7 @@ import { trustItems } from "../data/site.ts";
   .trust-grid__index {
     color: var(--gold-on-dark);
     font-size: var(--step--1);
-    font-weight: 700;
+    font-weight: var(--weight-semibold);
     letter-spacing: 0.12em;
   }
 
@@ -95,6 +118,16 @@ import { trustItems } from "../data/site.ts";
   @media (min-width: 48rem) {
     .trust-grid {
       grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (min-width: 64rem) {
+    .trust-slab__characters {
+      display: block;
+    }
+
+    .trust-slab__header {
+      max-width: min(52rem, calc(100% - clamp(11rem, 19vw, 17rem)));
     }
   }
 

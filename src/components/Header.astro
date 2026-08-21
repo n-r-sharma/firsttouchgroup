@@ -1,6 +1,7 @@
 ---
 import { Image } from "astro:assets";
-import logo from "../assets/brand/logo-header.png";
+import "@fontsource/inter/latin-400.css";
+import logo from "../assets/brand/ft-mark.svg";
 import { navigation, site } from "../data/site.ts";
 
 const isHome = Astro.url.pathname === "/";
@@ -12,7 +13,9 @@ const isHome = Astro.url.pathname === "/";
 >
   <div class="site-header__bar">
     <a class="site-header__brand" href="/#top" data-logo-link>
-      <Image src={logo} alt={`${site.name} logo`} class="site-header__logo" inferSize />
+      <Image src={logo} alt="" class="site-header__logo" inferSize />
+      <span class="site-header__brand-divider" aria-hidden="true"></span>
+      <span class="site-header__brand-name">{site.name}</span>
     </a>
 
     <nav class="site-header__nav" aria-label="Primary">
@@ -97,6 +100,7 @@ const isHome = Astro.url.pathname === "/";
   .site-header__brand {
     display: flex;
     align-items: center;
+    gap: clamp(0.65rem, 0.9vw, 0.85rem);
     flex: 0 0 auto;
     text-decoration: none;
     border-radius: 0;
@@ -104,11 +108,28 @@ const isHome = Astro.url.pathname === "/";
   }
 
   .site-header__logo {
-    width: clamp(8.5rem, 11vw, 10.75rem);
-    height: 3rem;
+    width: clamp(3.1rem, 3.6vw, 3.5rem);
+    height: 3.25rem;
     object-fit: contain;
     object-position: left center;
     transition: filter var(--duration) var(--ease);
+  }
+
+  .site-header__brand-divider {
+    width: 1px;
+    height: 2rem;
+    flex: 0 0 1px;
+    background: currentColor;
+    opacity: 0.45;
+  }
+
+  .site-header__brand-name {
+    max-width: 6.75rem;
+    font-family: "Inter", sans-serif;
+    font-size: 0.78rem;
+    font-weight: 400;
+    line-height: 1.25;
+    letter-spacing: 0.045em;
   }
 
   .site-header[data-overlay-header="true"]:not(.is-scrolled) .site-header__logo {
@@ -123,7 +144,7 @@ const isHome = Astro.url.pathname === "/";
     gap: 0.2rem clamp(1rem, 2.1vw, 2.1rem);
     flex: 1;
     font-size: var(--step--1);
-    font-weight: 650;
+    font-weight: var(--weight-semibold);
     letter-spacing: 0.08em;
     text-transform: uppercase;
   }
@@ -147,7 +168,7 @@ const isHome = Astro.url.pathname === "/";
     min-height: 2.75rem;
     padding: 0.625rem 1.125rem;
     font-size: 1rem;
-    font-weight: 650;
+    font-weight: var(--weight-semibold);
     line-height: 1.2;
   }
 
@@ -165,7 +186,7 @@ const isHome = Astro.url.pathname === "/";
     border: 0;
     background: transparent;
     color: currentColor;
-    font-weight: 600;
+    font-weight: var(--weight-semibold);
     cursor: pointer;
     transition: transform 160ms var(--ease);
   }
@@ -251,7 +272,7 @@ const isHome = Astro.url.pathname === "/";
   .site-menu__nav a {
     text-decoration: none;
     font-size: var(--step-1);
-    font-weight: 600;
+    font-weight: var(--weight-semibold);
     padding: 0.7rem 0.2rem;
     border-bottom: 1px solid rgb(20 32 51 / 0.08);
   }
@@ -262,6 +283,10 @@ const isHome = Astro.url.pathname === "/";
   }
 
   @media (min-width: 64rem) {
+    .site-header__brand {
+      width: clamp(12.5rem, 15vw, 14rem);
+    }
+
     .site-header__nav,
     .site-header__cta {
       display: flex;
@@ -320,8 +345,17 @@ const isHome = Astro.url.pathname === "/";
     }
 
     .site-header__logo {
-      width: 7.5rem;
-      height: 2.6rem;
+      width: 2.85rem;
+      height: 2.65rem;
+    }
+
+    .site-header__brand-divider {
+      height: 1.75rem;
+    }
+
+    .site-header__brand-name {
+      max-width: 5.6rem;
+      font-size: 0.7rem;
     }
   }
 </style>
