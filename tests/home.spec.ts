@@ -6,6 +6,7 @@ test.describe("homepage", () => {
     await page.goto("/");
     await expect(page.getByRole("heading", { level: 1 })).toContainText("Clean spaces");
     await expect(page.getByRole("link", { name: "Request a quote" }).first()).toBeVisible();
+    await expect(page.locator(".site-header__nav").getByRole("link", { name: "Quote", exact: true })).toHaveCount(0);
     await expect(page.locator("#services")).toBeVisible();
     await expect(page.locator("#quote")).toBeVisible();
   });

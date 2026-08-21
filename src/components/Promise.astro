@@ -1,12 +1,11 @@
 ---
-import { contact, site } from "../data/site.ts";
+import { site } from "../data/site.ts";
 ---
 
 <section class="slab promise-section" aria-labelledby="promise-heading">
   <div class="section promise">
     <div class="promise__masthead">
       <p class="eyebrow">The First Touch promise</p>
-      <p class="promise__locale">{contact.serviceArea}</p>
     </div>
     <h2 id="promise-heading" aria-label={site.tagline}>
       <span class="promise__headline" aria-hidden="true">
@@ -19,7 +18,7 @@ import { contact, site } from "../data/site.ts";
         A vetted, well-presented team works carefully around your people and guests, with a finish that holds up after the first week.
       </p>
       <p class="promise__note">
-        SafeContractor accreditation is in progress and is not yet listed among our credentials.
+        Placeholder for SafeContractor and other Credentials
       </p>
     </div>
   </div>
@@ -43,15 +42,6 @@ import { contact, site } from "../data/site.ts";
     gap: 1.5rem;
     padding-top: 1.4rem;
     border-top: 1px solid rgb(20 32 51 / 0.42);
-  }
-
-  .promise__locale {
-    margin: 0;
-    color: var(--muted);
-    font-size: var(--step--1);
-    font-weight: 600;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
   }
 
   h2 {

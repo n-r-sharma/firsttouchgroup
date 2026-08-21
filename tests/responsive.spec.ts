@@ -186,3 +186,27 @@ test("changes the overlay header to a solid sticky header on scroll", async ({ p
   await page.evaluate(() => window.scrollTo(0, 200));
   await expect(header).toHaveClass(/is-scrolled/);
 });
+
+test("keeps the desktop header material readable and its CTA compact", async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto("/");
+
+  const geometry = await page.evaluate(() => {
+    const header = document.querySelector<HTMLElement>("[data-overlay-header='true']");
+    const cta = document.querySelector<HTMLElement>(".site-header__cta");
+    const ctaRect = cta?.getBoundingClientRect();
+    const headerStyle = header ? getComputedStyle(header) : null;
+    const ctaStyle = cta ? getComputedStyle(cta) : null;
+
+    return {
+      headerBackground: headerStyle?.backgroundColor,
+      ctaHeight: ctaRect?.height,
+      ctaFontSize: ctaStyle?.fontSize,
+    };
+  });
+
+  expect(geometry.headerBackground).not.toBe("rgba(0, 0, 0, 0)");
+  expect(geometry.ctaHeight).toBeGreaterThanOrEqual(44);
+  expect(geometry.ctaHeight).toBeLessThanOrEqual(46);
+  expect(geometry.ctaFontSize).toBe("16px");
+});
