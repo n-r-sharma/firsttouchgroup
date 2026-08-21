@@ -137,7 +137,7 @@ const action = formReady ? `https://formspree.io/f/${formspreeFormId}` : undefin
 
   .quote a {
     color: var(--white);
-    font-weight: 600;
+    font-weight: var(--weight-semibold);
   }
 
   .section__header {
@@ -147,7 +147,7 @@ const action = formReady ? `https://formspree.io/f/${formspreeFormId}` : undefin
 
   .section__header h2 {
     font-size: clamp(2.7rem, 4.8vw, 5rem);
-    font-weight: 480;
+    font-weight: var(--weight-regular);
     line-height: 1;
   }
 
@@ -202,12 +202,12 @@ const action = formReady ? `https://formspree.io/f/${formspreeFormId}` : undefin
 
   label,
   legend {
-    font-weight: 600;
+    font-weight: var(--weight-semibold);
     font-size: var(--step--1);
   }
 
   .optional {
-    font-weight: 400;
+    font-weight: var(--weight-regular);
     color: var(--muted);
   }
 
@@ -249,7 +249,7 @@ const action = formReady ? `https://formspree.io/f/${formspreeFormId}` : undefin
     display: flex;
     align-items: center;
     gap: 0.6rem;
-    font-weight: 500;
+    font-weight: var(--weight-semibold);
   }
 
   .checks input {

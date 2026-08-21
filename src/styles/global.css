@@ -1,3 +1,27 @@
+@font-face {
+  font-family: "DistinctDiatype";
+  src: url("/fonts/distinct-diatype-regular.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "DistinctDiatype";
+  src: url("/fonts/distinct-diatype-semibold.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "ESFace";
+  src: url("/fonts/es-face-light-italic.woff2") format("woff2");
+  font-style: italic;
+  font-weight: 300;
+  font-display: swap;
+}
+
 :root {
   --navy: #0b1828;
   --navy-mid: #12233a;
@@ -16,8 +40,12 @@
   --success: #1e4a38;
   --success-soft: #dceae3;
   --ring: #c4a35a;
-  --font-sans: "Instrument Sans", "Segoe UI", sans-serif;
-  --font-serif: "Instrument Serif", Georgia, serif;
+  --font-body: "DistinctDiatype", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-display: var(--font-body);
+  --font-accent: "ESFace", "Iowan Old Style", Baskerville, Georgia, serif;
+  --weight-light: 300;
+  --weight-regular: 400;
+  --weight-semibold: 600;
   --content: 100rem;
   --gutter: clamp(1.25rem, 4.4vw, 4.5rem);
   --section-space: clamp(5rem, 10vw, 10rem);
@@ -70,7 +98,7 @@ body {
   min-height: 100vh;
   background: var(--navy);
   color: var(--ivory);
-  font-family: var(--font-sans);
+  font-family: var(--font-body);
   font-size: var(--step-0);
   line-height: var(--leading-body);
   font-synthesis: none;
@@ -114,18 +142,19 @@ h1,
 h2,
 h3,
 h4 {
+  font-family: var(--font-display);
   text-wrap: balance;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.02em;
   line-height: 1.08;
   margin: 0;
 }
 
-/* Editorial accent: serif italic words inside display headings */
+/* Distinct pairs Diatype with restrained ES Face italic accents. */
 h1 em,
 h2 em {
-  font-family: var(--font-serif);
+  font-family: var(--font-accent);
   font-style: italic;
-  font-weight: 400;
+  font-weight: var(--weight-light);
   letter-spacing: -0.015em;
 }
 
@@ -224,7 +253,7 @@ p {
 .section .editorial-header h2 {
   max-width: 52rem;
   font-size: clamp(2.5rem, 4.7vw, 5rem);
-  font-weight: 480;
+  font-weight: var(--weight-regular);
   line-height: 1;
 }
 
@@ -232,7 +261,7 @@ p {
   margin: 0;
   color: var(--gold-on-dark);
   font-size: var(--step--1);
-  font-weight: 700;
+  font-weight: var(--weight-semibold);
   letter-spacing: 0.14em;
   text-transform: uppercase;
 }
@@ -275,7 +304,7 @@ p {
   border-radius: var(--radius-control);
   background: var(--navy);
   color: var(--white);
-  font-weight: 600;
+  font-weight: var(--weight-semibold);
   text-decoration: none;
   cursor: pointer;
   transition:

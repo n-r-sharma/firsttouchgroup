@@ -24,7 +24,7 @@ test("holds together at 200% zoom equivalent", async ({ page }) => {
   expect(docWidth).toBeLessThanOrEqual(641);
 });
 
-test("keeps sector titles inside proportioned desktop cards", async ({ page }) => {
+test("keeps the active sector dominant and every title inside its desktop panel", async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto("/#sectors");
 
@@ -44,9 +44,59 @@ test("keeps sector titles inside proportioned desktop cards", async ({ page }) =
     }),
   );
 
-  expect(cards).toHaveLength(3);
-  expect(cards.every((card) => Math.abs(card.ratio - 0.8) < 0.02)).toBe(true);
+  expect(cards).toHaveLength(4);
+  expect(cards[0].ratio).toBeGreaterThan(cards[1].ratio * 2.5);
+  expect(cards.slice(1).every((card) => Math.abs(card.ratio - cards[1].ratio) < 0.02)).toBe(true);
   expect(cards.every((card) => card.headingFits)).toBe(true);
+});
+
+test("keeps sector navigation and complete cards in one short desktop view", async ({ page }) => {
+  await page.setViewportSize({ width: 1581, height: 718 });
+  await page.goto("/");
+  await page.evaluate(() => {
+    document.documentElement.style.scrollBehavior = "auto";
+    document.querySelector("#sectors")?.scrollIntoView({ block: "start" });
+  });
+
+  const geometry = await page.evaluate(() => {
+    const bounds = (selector: string) =>
+      document.querySelector<HTMLElement>(selector)?.getBoundingClientRect().toJSON();
+
+    return {
+      viewportHeight: window.innerHeight,
+      eyebrow: bounds("#sectors .eyebrow"),
+      heading: bounds("#sectors h2"),
+      controls: bounds("#sectors .sectors__controls"),
+      cards: bounds("#sectors .sector-grid"),
+      details: bounds("#sectors .sector-card.is-active .sector-card__details"),
+    };
+  });
+
+  for (const element of [
+    geometry.eyebrow,
+    geometry.heading,
+    geometry.controls,
+    geometry.cards,
+    geometry.details,
+  ]) {
+    expect(element?.top).toBeGreaterThanOrEqual(0);
+    expect(element?.bottom).toBeLessThanOrEqual(geometry.viewportHeight + 1);
+  }
+
+  const next = page.getByRole("button", { name: "Next sector" });
+  for (let index = 0; index < 4; index += 1) {
+    const activeCard = page.locator("#sectors .sector-card.is-active");
+    const cardBounds = await activeCard.evaluate((card) => card.getBoundingClientRect().toJSON());
+    const detailsBounds = await activeCard
+      .locator(".sector-card__details")
+      .evaluate((details) => details.getBoundingClientRect().toJSON());
+
+    expect(cardBounds.bottom).toBeLessThanOrEqual(geometry.viewportHeight + 1);
+    expect(detailsBounds.top).toBeGreaterThanOrEqual(cardBounds.top);
+    expect(detailsBounds.bottom).toBeLessThanOrEqual(cardBounds.bottom);
+
+    if (index < 3) await next.click();
+  }
 });
 
 test("keeps the Distinct-inspired surface grammar intentional", async ({ page }) => {

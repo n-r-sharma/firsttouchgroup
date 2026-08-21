@@ -4,6 +4,12 @@ import type { ImageMetadata } from "astro";
 import heroOffice from "../assets/images/hero-office.png";
 import heroHotel from "../assets/images/hero-hotel.png";
 import heroProperty from "../assets/images/hero-property.png";
+import heroWindowCleaners from "../assets/images/hero-window-cleaners.jpg";
+import heroFloorCleaner from "../assets/images/hero-floor-cleaner.jpg";
+import heroCleanCorridor from "../assets/images/hero-clean-corridor.jpg";
+import heroRopeAccess from "../assets/images/hero-rope-access.jpg";
+import heroWindowDetail from "../assets/images/hero-window-detail.jpg";
+import heroClinicalCleaner from "../assets/images/hero-clinical-cleaner.jpg";
 import serviceContract from "../assets/images/service-contract.png";
 import serviceDeep from "../assets/images/service-deep.png";
 import serviceFloor from "../assets/images/service-floor.png";
@@ -22,6 +28,7 @@ export interface Sector {
   id: string;
   name: string;
   summary: string;
+  quoteLabel: string;
   image: ImageMetadata;
   imageAlt: string;
 }
@@ -66,7 +73,7 @@ export const site = {
   url: "https://www.firsttouchgroup.co.uk",
   locale: "en-GB",
   description:
-    "Premium commercial cleaning and workplace services for offices, boutique hotels, and managed properties across London and surrounding areas.",
+    "Premium commercial cleaning and workplace services for offices, boutique hotels, managed properties, retail, and showrooms across London and surrounding areas.",
   privacyLegallyReviewed: false,
 };
 
@@ -96,19 +103,46 @@ export const navigation = [
 
 export const heroSlides = [
   {
-    id: "offices",
-    image: heroOffice,
-    alt: "A quiet, recently cleaned modern office lobby with limestone floors and morning light.",
+    id: "window-cleaners",
+    image: heroWindowCleaners,
+    alt: "Two cleaners washing the glass entrance of a modern commercial building.",
+    position: "62% 48%",
+    mobilePosition: "63% 48%",
   },
   {
-    id: "hotels",
-    image: heroHotel,
-    alt: "An intimate boutique hotel lobby with warm lighting, linen seating, and a floral arrangement.",
+    id: "floor-cleaner",
+    image: heroFloorCleaner,
+    alt: "A cleaner mopping a polished commercial entrance in warm evening light.",
+    position: "58% 50%",
+    mobilePosition: "58% 50%",
   },
   {
-    id: "properties",
-    image: heroProperty,
-    alt: "A well-kept London mansion-block hallway with a runner carpet and daylight from a sash window.",
+    id: "clean-corridor",
+    image: heroCleanCorridor,
+    alt: "A cleaner mopping the reflective floor of a bright modern corridor.",
+    position: "58% 55%",
+    mobilePosition: "57% 54%",
+  },
+  {
+    id: "rope-access",
+    image: heroRopeAccess,
+    alt: "Three rope-access window cleaners working across a glass office facade.",
+    position: "50% 50%",
+    mobilePosition: "42% 50%",
+  },
+  {
+    id: "window-detail",
+    image: heroWindowDetail,
+    alt: "A window cleaner detailing the glass of a stone commercial building from a ladder.",
+    position: "60% 50%",
+    mobilePosition: "61% 50%",
+  },
+  {
+    id: "clinical-cleaner",
+    image: heroClinicalCleaner,
+    alt: "A cleaner in protective clothing mopping a bright clinical workspace.",
+    position: "62% 50%",
+    mobilePosition: "67% 50%",
   },
 ] as const;
 
@@ -206,6 +240,7 @@ export const sectors: Sector[] = [
     name: "Offices & workplaces",
     summary:
       "Reception to boardroom, kept to a standard that matches the work happening inside.",
+    quoteLabel: "Quote for your workplace",
     image: heroOffice,
     imageAlt:
       "A bright, empty office lobby with polished floors and a calm reception desk.",
@@ -215,6 +250,7 @@ export const sectors: Sector[] = [
     name: "Boutique hotels",
     summary:
       "Guest-facing spaces where cleanliness is part of the stay, delivered quietly and on your timetable.",
+    quoteLabel: "Quote for your hotel",
     image: heroHotel,
     imageAlt: "A boutique hotel lobby dressed with linen, brass, and fresh flowers.",
   },
@@ -223,9 +259,21 @@ export const sectors: Sector[] = [
     name: "Managed properties",
     summary:
       "Common parts and amenity spaces that residents, tenants, and visitors judge in a glance.",
+    quoteLabel: "Quote for your property",
     image: heroProperty,
     imageAlt:
       "A quietly luxurious mansion-block hallway with a runner carpet and daylight.",
+  },
+  {
+    id: "retail",
+    name: "Retail & showrooms",
+    summary:
+      "Customer-facing spaces kept polished and ready, from opening checks to discreet after-hours resets.",
+    quoteLabel: "Quote for your retail space",
+    // Temporary sector image until dedicated retail photography is commissioned.
+    image: serviceFloor,
+    imageAlt:
+      "A cleaner polishing the floor of a premium customer-facing commercial interior.",
   },
 ];
 
@@ -301,6 +349,7 @@ export const propertyTypes = [
   { id: "offices", label: "Offices & workplaces" },
   { id: "hotels", label: "Boutique hotels" },
   { id: "properties", label: "Managed properties" },
+  { id: "retail", label: "Retail & showrooms" },
   { id: "other", label: "Other / mixed" },
 ] as const;
 
