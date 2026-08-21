@@ -1,0 +1,369 @@
+---
+import { contact, formspreeFormId, propertyTypes, services } from "../data/site.ts";
+import { isUsableFormId } from "../lib/placeholders.ts";
+
+const formReady = isUsableFormId(formspreeFormId);
+const action = formReady ? `https://formspree.io/f/${formspreeFormId}` : undefined;
+---
+
+<section class="slab" id="quote" aria-labelledby="quote-heading">
+  <div class="section quote">
+    <div class="section__header">
+      <p class="eyebrow">Quote</p>
+      <h2 id="quote-heading">Tell us about your building. We’ll send a clear <em>cleaning plan.</em></h2>
+      <p class="lede">
+        We work with businesses and property teams. Prefer to talk?
+        <a href={`mailto:${contact.email}`} data-track="contact_click" data-method="email">{contact.email}</a>
+        or
+        <a href={contact.phoneHref} data-track="contact_click" data-method="phone">{contact.phoneDisplay}</a>.
+      </p>
+    </div>
+
+    <div class="quote__success" data-fs-success hidden>
+      <h3>Quote request received</h3>
+      <p>
+        Thanks. We’ll review your brief and get back to you. If it is urgent, call
+        {contact.phoneDisplay}.
+      </p>
+    </div>
+
+    <div class="quote__error" data-fs-error hidden></div>
+
+    <form
+      class="quote-form"
+      id="quote-form"
+      method="post"
+      action={action}
+      data-quote-form
+      data-form-ready={formReady ? "true" : "false"}
+      data-form-id={formReady ? formspreeFormId : ""}
+    >
+      <input type="hidden" name="_subject" value="Quote request from firsttouchgroup.co.uk" />
+      <input type="text" name="_gotcha" class="visually-hidden" tabindex="-1" autocomplete="off" aria-hidden="true" />
+      <div class="honeypot" aria-hidden="true">
+        <label for="company_website">Website</label>
+        <input id="company_website" name="company_website" type="text" tabindex="-1" autocomplete="off" />
+      </div>
+
+      <div class="quote-form__grid">
+        <p class="field">
+          <label for="full-name">Full name</label>
+          <input id="full-name" name="name" type="text" autocomplete="name" required data-fs-field />
+          <span data-fs-error="name"></span>
+        </p>
+        <p class="field">
+          <label for="company">Company or property</label>
+          <input id="company" name="company" type="text" autocomplete="organization" required data-fs-field />
+          <span data-fs-error="company"></span>
+        </p>
+        <p class="field">
+          <label for="email">Work email</label>
+          <input id="email" name="email" type="email" autocomplete="email" required data-fs-field />
+          <span data-fs-error="email"></span>
+        </p>
+        <p class="field">
+          <label for="phone">Phone <span class="optional">(optional)</span></label>
+          <input id="phone" name="phone" type="tel" autocomplete="tel" data-fs-field />
+          <span data-fs-error="phone"></span>
+        </p>
+        <p class="field">
+          <label for="postcode">Postcode</label>
+          <input id="postcode" name="postcode" type="text" autocomplete="postal-code" required data-fs-field />
+          <span data-fs-error="postcode"></span>
+        </p>
+        <p class="field">
+          <label for="property-type">Property type</label>
+          <select id="property-type" name="propertyType" required data-fs-field>
+            <option value="">Select property type</option>
+            {propertyTypes.map((type) => (
+              <option value={type.id}>{type.label}</option>
+            ))}
+          </select>
+          <span data-fs-error="propertyType"></span>
+        </p>
+      </div>
+
+      <fieldset class="field field--full">
+        <legend>Services</legend>
+        <div class="checks">
+          {services.map((service) => (
+            <label>
+              <input type="checkbox" name="services" value={service.id} data-service-option={service.id} />
+              {service.name}
+            </label>
+          ))}
+        </div>
+        <span data-fs-error="services"></span>
+      </fieldset>
+
+      <p class="field field--full">
+        <label for="brief">Brief <span class="optional">(optional)</span></label>
+        <textarea id="brief" name="brief" rows="5" data-fs-field></textarea>
+        <span data-fs-error="brief"></span>
+      </p>
+
+      <p class="quote-form__status" data-form-status role="status"></p>
+
+      <button class="button button--ink" type="submit" data-fs-submit-btn>Request a quote</button>
+      <noscript>
+        <p>
+          JavaScript is off. This form still sends by email via Formspree if the live form ID is configured. You can
+          also write to {contact.email}.
+        </p>
+      </noscript>
+    </form>
+  </div>
+</section>
+
+<style>
+  section {
+    position: relative;
+    background:
+      radial-gradient(90% 70% at 85% 0%, rgb(196 163 90 / 0.14) 0%, transparent 55%),
+      radial-gradient(120% 100% at 0% 100%, var(--navy) 0%, transparent 60%),
+      var(--navy-mid);
+    color: var(--ivory);
+  }
+
+  .section__header h2 em {
+    color: var(--gold-on-dark);
+  }
+
+  .quote {
+    display: grid;
+    gap: 2rem clamp(3rem, 7vw, 7rem);
+    padding-block: clamp(5rem, 10vw, 10rem);
+  }
+
+  .quote a {
+    color: var(--white);
+    font-weight: 600;
+  }
+
+  .section__header {
+    max-width: 40rem;
+    margin: 0;
+  }
+
+  .section__header h2 {
+    font-size: clamp(2.7rem, 4.8vw, 5rem);
+    font-weight: 480;
+    line-height: 1;
+  }
+
+  .section__header .lede {
+    color: rgb(255 255 255 / 0.78);
+  }
+
+  .quote .eyebrow {
+    color: var(--gold-on-dark);
+  }
+
+  .quote-form,
+  .quote__success {
+    background: var(--white);
+    border-radius: var(--radius-card);
+    padding: 1.4rem;
+    color: var(--ink);
+    box-shadow: var(--shadow-lift);
+  }
+
+  .quote__success,
+  .quote__error {
+    opacity: 1;
+    transform: translateY(0);
+    transition:
+      opacity 180ms var(--ease),
+      transform 180ms var(--ease);
+  }
+
+  @starting-style {
+    .quote__success:not([hidden]),
+    .quote__error:not([hidden]) {
+      opacity: 0;
+      transform: translateY(6px);
+    }
+  }
+
+  .quote-form__grid {
+    display: grid;
+    gap: 1rem;
+  }
+
+  .field {
+    display: grid;
+    gap: 0.4rem;
+    margin: 0;
+  }
+
+  .field--full {
+    margin-top: 1rem;
+  }
+
+  label,
+  legend {
+    font-weight: 600;
+    font-size: var(--step--1);
+  }
+
+  .optional {
+    font-weight: 400;
+    color: var(--muted);
+  }
+
+  input,
+  select,
+  textarea {
+    width: 100%;
+    min-height: 3rem;
+    padding: 0.65rem 0.85rem;
+    border: 1px solid rgb(20 32 51 / 0.18);
+    border-radius: 0.85rem;
+    background: var(--ivory);
+    color: var(--ink);
+  }
+
+  textarea {
+    min-height: 8rem;
+    resize: vertical;
+  }
+
+  input[aria-invalid="true"],
+  select[aria-invalid="true"],
+  textarea[aria-invalid="true"] {
+    border-color: var(--error);
+  }
+
+  [data-fs-error] {
+    color: var(--error);
+    font-size: var(--step--1);
+    min-height: 1.1em;
+  }
+
+  .checks {
+    display: grid;
+    gap: 0.55rem;
+  }
+
+  .checks label {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-weight: 500;
+  }
+
+  .checks input {
+    width: 1.1rem;
+    min-height: 1.1rem;
+    padding: 0;
+    accent-color: var(--navy);
+  }
+
+  .honeypot {
+    position: absolute;
+    left: -100vw;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  }
+
+  .quote-form {
+    position: relative;
+  }
+
+  .quote-form.is-submitting {
+    pointer-events: none;
+    opacity: 0.72;
+  }
+
+  .quote-form.is-completing {
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 120ms var(--ease);
+  }
+
+  .quote-form[hidden],
+  .quote__success[hidden],
+  .quote__error[hidden] {
+    display: none;
+  }
+
+  .quote__success {
+    background: var(--success-soft);
+    color: var(--success);
+  }
+
+  .quote__error {
+    background: var(--error-soft);
+    color: var(--error);
+    border-radius: var(--radius-card);
+    padding: 0.9rem 1rem;
+  }
+
+  .quote-form__status {
+    min-height: 1.4em;
+    color: var(--muted);
+    font-size: var(--step--1);
+  }
+
+  .quote-form .button {
+    margin-top: 1.1rem;
+    background: var(--gold);
+    color: var(--navy);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .quote__success,
+    .quote__error {
+      transform: none;
+      transition: opacity 120ms var(--ease);
+    }
+
+    @starting-style {
+      .quote__success:not([hidden]),
+      .quote__error:not([hidden]) {
+        transform: none;
+      }
+    }
+  }
+
+  @media (min-width: 48rem) {
+    .quote-form,
+    .quote__success {
+      padding: 1.75rem;
+    }
+
+    .quote-form__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .checks {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (min-width: 64rem) {
+    .quote {
+      grid-template-columns: minmax(18rem, 0.75fr) minmax(0, 1.25fr);
+      align-items: start;
+    }
+
+    .section__header {
+      position: sticky;
+      top: 8rem;
+      grid-column: 1;
+      grid-row: 1 / 4;
+    }
+
+    .quote-form,
+    .quote__success,
+    .quote__error {
+      grid-column: 2;
+    }
+  }
+</style>
+
+<script>
+  import "../scripts/form.ts";
+  import "../scripts/quote-prefills.ts";
+</script>

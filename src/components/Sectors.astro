@@ -1,0 +1,202 @@
+---
+import ResponsivePicture from "./Picture.astro";
+import { sectors } from "../data/site.ts";
+---
+
+<section class="slab" id="sectors" aria-labelledby="sectors-heading">
+  <div class="section">
+    <div class="sectors__header editorial-header">
+      <p class="eyebrow">Who we work with</p>
+      <h2 id="sectors-heading">Cleaning shaped around how each <em>building runs.</em></h2>
+    </div>
+    <ul class="sector-grid">
+      {sectors.map((sector) => (
+        <li class="sector-card grain">
+          <ResponsivePicture
+            src={sector.image}
+            alt={sector.imageAlt}
+            widths={[640, 960, 1400]}
+            sizes="(min-width: 80rem) 28rem, 100vw"
+            class="sector-card__image"
+          />
+          <div class="sector-card__body">
+            <div>
+              <span class="sector-card__for">For</span>
+              <h3>{sector.name}</h3>
+            </div>
+            <p>{sector.summary}</p>
+            <button
+              class="sector-card__action"
+              type="button"
+              data-prefill-sector={sector.id}
+              data-track="sector_selected"
+            >
+              <span aria-hidden="true">→</span>
+              Quote for {sector.name.toLowerCase()}
+            </button>
+          </div>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .section {
+    padding-block: clamp(5rem, 9vw, 9rem);
+  }
+
+  .sector-grid {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 1rem;
+  }
+
+  .sector-card {
+    position: relative;
+    display: grid;
+    background: var(--navy);
+    border-radius: var(--radius-card);
+    overflow: hidden;
+    min-height: clamp(31rem, 53vw, 43rem);
+    outline: 1px solid oklch(0 0 0 / 0.1);
+    outline-offset: -1px;
+    box-shadow: var(--shadow-card);
+    transition:
+      transform 320ms var(--ease),
+      box-shadow 320ms var(--ease);
+  }
+
+  .sector-card__image,
+  .sector-card :global(picture),
+  .sector-card :global(img) {
+    width: 100%;
+    position: absolute;
+    inset: 0;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .sector-card :global(img) {
+    transition: transform 700ms var(--ease);
+  }
+
+  .sector-card :global(picture) {
+    display: block;
+  }
+
+  .sector-card__body {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    gap: 1rem;
+    padding: clamp(1.5rem, 2.5vw, 2.3rem);
+    color: var(--white);
+    background: linear-gradient(180deg, rgb(11 24 40 / 0.5), transparent 48%, rgb(11 24 40 / 0.72));
+  }
+
+  h3 {
+    max-width: none;
+    font-size: clamp(2.1rem, 2.5vw, 3rem);
+    font-weight: 580;
+    line-height: 0.98;
+    letter-spacing: -0.035em;
+    text-transform: uppercase;
+  }
+
+  .sector-card__for {
+    display: block;
+    margin-bottom: 0.15rem;
+    font-family: var(--font-serif);
+    font-size: clamp(1.75rem, 2.2vw, 2.5rem);
+    font-style: italic;
+    line-height: 1;
+  }
+
+  .sector-card__body p {
+    align-self: end;
+    max-width: 30rem;
+    color: rgb(255 255 255 / 0.88);
+  }
+
+  .sector-card__action {
+    justify-self: start;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.65rem;
+    min-height: 2.75rem;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: var(--white);
+    font-weight: 650;
+    cursor: pointer;
+  }
+
+  .sector-card__action span {
+    display: grid;
+    place-items: center;
+    width: 2rem;
+    height: 2rem;
+    border: 1px solid rgb(255 255 255 / 0.74);
+    border-radius: 50%;
+    transition: transform var(--duration) var(--ease), background-color var(--duration) var(--ease);
+  }
+
+  .sector-card__action:active span {
+    transform: scale(0.96);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .sector-card:hover {
+      transform: translateY(-0.35rem);
+      box-shadow: var(--shadow-lift);
+    }
+
+    .sector-card:hover :global(img) {
+      transform: scale(1.045);
+    }
+
+    .sector-card__action:hover span {
+      background: var(--white);
+      color: var(--navy);
+      transform: translateX(0.2rem);
+    }
+  }
+
+  @media (min-width: 72rem) {
+    .sector-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .sector-card {
+      min-height: 0;
+      aspect-ratio: 4 / 5;
+    }
+
+    .sector-card:nth-child(2) {
+      margin-top: 2rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .sector-card {
+      transition: none;
+    }
+
+    .sector-card :global(img),
+    .sector-card__action span {
+      transition-duration: 120ms;
+    }
+
+    .sector-card:hover,
+    .sector-card:hover :global(img) {
+      transform: none;
+    }
+  }
+
+</style>

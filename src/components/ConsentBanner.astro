@@ -1,0 +1,97 @@
+---
+import { cookiebotId } from "../data/site.ts";
+import { isUsableCookiebotId } from "../lib/placeholders.ts";
+
+const cookiebotReady = isUsableCookiebotId(cookiebotId);
+---
+
+<div
+  class="consent"
+  data-consent-banner
+  data-cookiebot-ready={cookiebotReady ? "true" : "false"}
+  data-cookiebot-id={cookiebotReady ? cookiebotId : ""}
+  hidden
+>
+  <div class="consent__inner">
+    <p>
+      We use optional analytics cookies only if you accept. Necessary cookies keep the site working. Rejecting
+      non-essential cookies will not change the quote form.
+    </p>
+    <div class="consent__actions">
+      <button class="button button--quiet" type="button" data-consent-reject>Reject non-essential</button>
+      <button class="button button--quiet" type="button" data-consent-accept>Accept analytics</button>
+    </div>
+  </div>
+</div>
+
+<style>
+  .consent {
+    position: fixed;
+    z-index: 60;
+    left: 0.85rem;
+    right: 0.85rem;
+    bottom: 0.85rem;
+    opacity: 1;
+    transform: translateY(0);
+    transition:
+      opacity 220ms var(--ease),
+      transform 220ms var(--ease);
+  }
+
+  .consent[data-state="opening"] {
+    transform: translateY(8px);
+  }
+
+  .consent[data-state="closing"] {
+    opacity: 0;
+    transform: translateY(8px);
+    pointer-events: none;
+    transition-duration: 160ms;
+  }
+
+  .consent__inner {
+    width: min(100%, 35rem);
+    margin-inline: auto 0;
+    display: grid;
+    gap: 1rem;
+    padding: 1.1rem 1.15rem;
+    background: var(--ivory);
+    color: var(--ink);
+    border-radius: 1.25rem;
+    box-shadow: var(--shadow-soft);
+  }
+
+  p {
+    margin: 0;
+    font-size: var(--step--1);
+  }
+
+  .consent__actions {
+    display: grid;
+    gap: 0.6rem;
+  }
+
+  .consent__actions .button {
+    width: 100%;
+    min-height: 3rem;
+  }
+
+  @media (min-width: 40rem) {
+    .consent__inner {
+      grid-template-columns: 1fr;
+    }
+
+    .consent__actions {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .consent,
+    .consent[data-state="opening"],
+    .consent[data-state="closing"] {
+      transform: none;
+      transition: opacity 120ms var(--ease);
+    }
+  }
+</style>

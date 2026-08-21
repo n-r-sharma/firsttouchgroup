@@ -1,0 +1,63 @@
+---
+import { getImage } from "astro:assets";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Hero from "../components/Hero.astro";
+import Trust from "../components/Trust.astro";
+import Promise from "../components/Promise.astro";
+import Services from "../components/Services.astro";
+import Sectors from "../components/Sectors.astro";
+import Standards from "../components/Standards.astro";
+import Process from "../components/Process.astro";
+import Quote from "../components/Quote.astro";
+import { contact, heroSlides, site } from "../data/site.ts";
+
+const preload = await getImage({
+  src: heroSlides[0].image,
+  format: "avif",
+  width: 1440,
+});
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  name: site.name,
+  description: site.description,
+  url: site.url,
+  areaServed: contact.serviceArea,
+  email: contact.email,
+  telephone: contact.phoneHref.replace("tel:", ""),
+  slogan: site.tagline,
+};
+---
+
+<BaseLayout
+  title={`${site.name} — Clean spaces. Stronger first impressions.`}
+  preloadImage={preload.src}
+>
+  <script is:inline type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  <main id="main">
+    <div class="page-stack">
+      <Hero />
+      <div class="page-content">
+        <Promise />
+        <Services />
+        <Trust />
+        <Sectors />
+        <Standards />
+        <Process />
+        <Quote />
+      </div>
+    </div>
+  </main>
+</BaseLayout>
+
+<style>
+  .page-content {
+    position: relative;
+    z-index: 1;
+    margin-top: -2rem;
+    background: var(--white);
+    border-radius: var(--radius-slab) var(--radius-slab) 0 0;
+    overflow: clip;
+  }
+</style>

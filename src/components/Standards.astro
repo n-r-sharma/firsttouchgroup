@@ -1,0 +1,226 @@
+---
+import ResponsivePicture from "./Picture.astro";
+import { standards } from "../data/site.ts";
+---
+
+<section class="slab" id="standards" aria-labelledby="standards-heading" data-standards>
+  <div class="section">
+    <div class="section__header editorial-header">
+      <p class="eyebrow">Standards</p>
+      <h2 id="standards-heading">What keeps the work consistent, <em>week after week.</em></h2>
+    </div>
+    <div class="standards">
+      <div class="standards__list">
+        {standards.map((item, index) => (
+          <div class="standard" data-standard-item>
+            <h3>
+              <button
+                type="button"
+                id={`standard-btn-${item.id}`}
+                aria-expanded={index === 0 ? "true" : "false"}
+                aria-controls={`standard-panel-${item.id}`}
+                data-standard-trigger
+                data-standard-image={item.id}
+              >
+                <span>{item.title}</span>
+                <span class="standard__mark" aria-hidden="true">{index === 0 ? "–" : "+"}</span>
+              </button>
+            </h3>
+            <div
+              class="standard__panel"
+              id={`standard-panel-${item.id}`}
+              role="region"
+              aria-labelledby={`standard-btn-${item.id}`}
+              hidden={index !== 0}
+              data-standard-panel
+            >
+              <p>{item.body}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+      <div class="standards__visual">
+        {standards.map((item, index) => (
+          <div
+            class:list={["standards__frame", index === 0 && "is-active"]}
+            aria-hidden={index === 0 ? "false" : "true"}
+            data-standard-frame={item.id}
+          >
+            <ResponsivePicture
+              src={item.image}
+              alt={item.imageAlt}
+              widths={[640, 960, 1400]}
+              sizes="(min-width: 64rem) 40vw, 100vw"
+              class="standards__image"
+            />
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  section {
+    background: var(--ivory);
+  }
+
+  .section {
+    padding-block: clamp(5rem, 9vw, 9rem);
+  }
+
+  .standards {
+    display: grid;
+    gap: 2rem;
+  }
+
+  .standard {
+    border-top: 1px solid rgb(20 32 51 / 0.16);
+    transition: background-color var(--duration) var(--ease);
+  }
+
+  .standard:last-child {
+    border-bottom: 1px solid rgb(20 32 51 / 0.16);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .standard:hover {
+      background: rgb(20 32 51 / 0.035);
+    }
+  }
+
+  button {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    min-height: 4.5rem;
+    padding: 1.35rem 0.85rem;
+    border: 0;
+    background: transparent;
+    color: var(--ink);
+    font-size: clamp(1.15rem, 1.5vw, 1.45rem);
+    font-weight: 580;
+    text-align: left;
+    cursor: pointer;
+  }
+
+  button[aria-expanded="true"] {
+    color: var(--gold-on-light);
+  }
+
+  .standard__mark {
+    flex: 0 0 auto;
+    display: grid;
+    place-items: center;
+    width: 2rem;
+    height: 2rem;
+    border: 1px solid rgb(20 32 51 / 0.3);
+    border-radius: 50%;
+    color: var(--gold-on-light);
+    font-weight: 500;
+    line-height: 1;
+    transition:
+      transform 240ms var(--ease),
+      background-color var(--duration) var(--ease),
+      color var(--duration) var(--ease);
+  }
+
+  button[aria-expanded="true"] .standard__mark {
+    background: var(--gold);
+    border-color: var(--gold);
+    color: var(--white);
+  }
+
+  .standard__panel {
+    padding-block: 0 1.5rem;
+    padding-inline: 0.85rem 2rem;
+    color: var(--muted);
+    max-width: 38rem;
+    opacity: 1;
+    transform: translateY(0);
+    transition:
+      opacity 180ms var(--ease),
+      transform 180ms var(--ease);
+  }
+
+  @starting-style {
+    .standard__panel:not([hidden]) {
+      opacity: 0;
+      transform: translateY(-4px);
+    }
+  }
+
+  .standards__visual {
+    position: relative;
+    min-height: 30rem;
+    border-radius: var(--radius-card);
+    overflow: hidden;
+    background: var(--navy-mid);
+    outline: 1px solid oklch(0 0 0 / 0.1);
+    outline-offset: -1px;
+    box-shadow: var(--shadow-card);
+  }
+
+  .standards__frame {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 240ms var(--ease);
+  }
+
+  .standards__frame.is-active {
+    opacity: 1;
+    z-index: 1;
+  }
+
+  .standards__image,
+  .standards__frame :global(img) {
+    width: 100%;
+    height: 100%;
+    min-height: 30rem;
+    object-fit: cover;
+  }
+
+  .standards__frame :global(picture) {
+    display: block;
+    height: 100%;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .standard__panel {
+      transform: none;
+      transition: opacity 120ms var(--ease);
+    }
+
+    @starting-style {
+      .standard__panel:not([hidden]) {
+        transform: none;
+      }
+    }
+
+    .standards__frame {
+      transition-duration: 120ms;
+    }
+  }
+
+  @media (min-width: 64rem) {
+    .standards {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+      align-items: stretch;
+      gap: clamp(3rem, 6vw, 6rem);
+    }
+
+    .standards__visual,
+    .standards__image {
+      min-height: 100%;
+      height: 100%;
+    }
+  }
+
+</style>
+
+<script>
+  import "../scripts/accordion.ts";
+</script>

@@ -1,0 +1,103 @@
+---
+import { processSteps } from "../data/site.ts";
+---
+
+<section class="slab" id="process" aria-labelledby="process-heading">
+  <div class="section">
+    <div class="section__header editorial-header">
+      <p class="eyebrow">Process</p>
+      <h2 id="process-heading">A clear plan, from walkthrough to <em>ongoing reviews.</em></h2>
+    </div>
+    <ol class="process">
+      {processSteps.map((step, index) => (
+        <li>
+          <span class="process__index" aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
+          <h3>{step.title}</h3>
+          <p>{step.body}</p>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
+
+<style>
+  .section {
+    padding-block: clamp(5rem, 9vw, 9rem);
+  }
+
+  .section__header h2 em {
+    color: var(--gold-on-light);
+  }
+
+  .process {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 1rem;
+    counter-reset: step;
+  }
+
+  li {
+    position: relative;
+    display: grid;
+    align-content: start;
+    gap: 0.55rem;
+    padding: clamp(1.5rem, 2.4vw, 2.25rem);
+    background: var(--ivory);
+    border-radius: var(--radius-card);
+    outline: 1px solid oklch(0 0 0 / 0.06);
+    outline-offset: -1px;
+    overflow: hidden;
+    transition:
+      transform 320ms var(--ease),
+      box-shadow 320ms var(--ease);
+  }
+
+  .process__index {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: clamp(3.4rem, 5vw, 5rem);
+    line-height: 1;
+    color: var(--gold-on-light);
+    margin-bottom: 0.4rem;
+  }
+
+  h3 {
+    font-size: var(--step-1);
+  }
+
+  p {
+    color: var(--muted);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    li:hover {
+      transform: translateY(-0.35rem);
+      box-shadow: var(--shadow-lift);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    li {
+      transition: none;
+    }
+
+    li:hover {
+      transform: none;
+    }
+  }
+
+  @media (min-width: 48rem) {
+    .process {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (min-width: 64rem) {
+    .process {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+
+</style>
