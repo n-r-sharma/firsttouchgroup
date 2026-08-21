@@ -48,16 +48,18 @@ import { sectors } from "../data/site.ts";
             </div>
             <span class="sector-card__peek" aria-hidden="true">→</span>
             <div class="sector-card__details">
-              <p>{sector.summary}</p>
-              <button
-                class="sector-card__action"
-                type="button"
-                data-prefill-sector={sector.id}
-                data-track="sector_selected"
-              >
-                <span>{sector.quoteLabel}</span>
-                <span aria-hidden="true">→</span>
-              </button>
+              <div class="sector-card__details-inner">
+                <p>{sector.summary}</p>
+                <button
+                  class="sector-card__action"
+                  type="button"
+                  data-prefill-sector={sector.id}
+                  data-track="sector_selected"
+                >
+                  <span>{sector.quoteLabel}</span>
+                  <span aria-hidden="true">→</span>
+                </button>
+              </div>
             </div>
           </div>
         </li>
@@ -142,6 +144,9 @@ import { sectors } from "../data/site.ts";
     outline: 1px solid oklch(0 0 0 / 0.1);
     outline-offset: -1px;
     box-shadow: var(--shadow-card);
+    transition:
+      flex-grow 560ms cubic-bezier(0.77, 0, 0.175, 1),
+      box-shadow 320ms var(--ease);
   }
 
   .sector-card__selector {
@@ -158,7 +163,7 @@ import { sectors } from "../data/site.ts";
   }
 
   .sector-card__selector:focus-visible {
-    outline: 3px solid var(--gold-bright);
+    outline: 3px solid rgb(255 255 255 / 0.85);
     outline-offset: -5px;
   }
 
@@ -226,20 +231,39 @@ import { sectors } from "../data/site.ts";
     color: var(--gold-on-dark);
     font-size: 1.55rem;
     line-height: 1;
-    transition: transform var(--duration) var(--ease);
+    transition:
+      transform var(--duration) var(--ease),
+      opacity 220ms var(--ease);
   }
 
   .sector-card__details {
-    display: none;
+    display: grid;
+    grid-template-rows: 0fr;
+    opacity: 0;
+    transform: translateY(8px);
+    transition:
+      grid-template-rows 480ms cubic-bezier(0.77, 0, 0.175, 1),
+      opacity 280ms var(--ease),
+      transform 480ms cubic-bezier(0.77, 0, 0.175, 1);
+  }
+
+  .sector-card__details-inner {
+    display: grid;
+    gap: 1.25rem;
+    min-height: 0;
+    overflow: hidden;
   }
 
   .sector-card.is-active .sector-card__details {
-    display: grid;
-    gap: 1.25rem;
+    grid-template-rows: 1fr;
+    opacity: 1;
+    transform: translateY(0);
   }
 
   .sector-card.is-active .sector-card__peek {
-    display: none;
+    opacity: 0;
+    transform: translateX(0.4rem);
+    pointer-events: none;
   }
 
   .sector-card__details p {
@@ -260,10 +284,12 @@ import { sectors } from "../data/site.ts";
     width: min(100%, 24rem);
     min-height: 3.5rem;
     padding: 0.8rem 1.2rem;
-    border: 1px solid var(--gold-bright);
+    border: 1px solid var(--glass-border-light);
     border-radius: 0.2rem;
-    background: rgb(11 24 40 / 0.42);
-    color: var(--gold-on-dark);
+    background: rgb(255 255 255 / 0.12);
+    -webkit-backdrop-filter: var(--glass-blur);
+    backdrop-filter: var(--glass-blur);
+    color: var(--white);
     font-size: var(--step--1);
     font-weight: var(--weight-semibold);
     letter-spacing: 0.09em;
@@ -296,7 +322,7 @@ import { sectors } from "../data/site.ts";
     }
 
     .sector-card__action:hover {
-      background: var(--gold-bright);
+      background: rgb(255 255 255 / 0.92);
       color: var(--navy);
     }
   }
@@ -320,8 +346,8 @@ import { sectors } from "../data/site.ts";
     }
 
     .sector-grid {
-      display: grid;
-      grid-template-columns: repeat(6, minmax(0, 1fr));
+      display: flex;
+      gap: 1rem;
       height: auto;
       min-height: 0;
       margin: 0;
@@ -331,14 +357,15 @@ import { sectors } from "../data/site.ts";
     }
 
     .sector-card {
-      grid-column: span 1;
+      flex: 1 1 0;
       width: auto;
       height: 100%;
       min-height: 0;
+      scroll-snap-align: none;
     }
 
     .sector-card.is-active {
-      grid-column: span 3;
+      flex-grow: 3;
     }
 
     .sector-card:not(.is-active) .sector-card__body {
@@ -354,6 +381,10 @@ import { sectors } from "../data/site.ts";
       max-width: 18ch;
       font-size: clamp(2.15rem, 2.5vw, 2.65rem);
     }
+
+    .sector-card h3 {
+      transition: font-size 560ms cubic-bezier(0.77, 0, 0.175, 1);
+    }
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -362,6 +393,16 @@ import { sectors } from "../data/site.ts";
     .sector-card__action,
     .sectors__controls button {
       transition-duration: 120ms;
+    }
+
+    .sector-card,
+    .sector-card__details,
+    .sector-card h3 {
+      transition-duration: 120ms;
+    }
+
+    .sector-card__details {
+      transform: none;
     }
 
     .sector-card:hover :global(img),

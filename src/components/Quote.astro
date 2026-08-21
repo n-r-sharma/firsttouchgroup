@@ -119,7 +119,7 @@ const action = formReady ? `https://formspree.io/f/${formspreeFormId}` : undefin
   section {
     position: relative;
     background:
-      radial-gradient(90% 70% at 85% 0%, rgb(196 163 90 / 0.14) 0%, transparent 55%),
+      radial-gradient(90% 70% at 85% 0%, rgb(141 176 212 / 0.16) 0%, transparent 55%),
       radial-gradient(120% 100% at 0% 100%, var(--navy) 0%, transparent 60%),
       var(--navy-mid);
     color: var(--ivory);
@@ -161,7 +161,10 @@ const action = formReady ? `https://formspree.io/f/${formspreeFormId}` : undefin
 
   .quote-form,
   .quote__success {
-    background: var(--white);
+    background: var(--glass-light-strong);
+    -webkit-backdrop-filter: var(--glass-blur);
+    backdrop-filter: var(--glass-blur);
+    border: 1px solid var(--glass-border-light);
     border-radius: var(--radius-card);
     padding: 1.4rem;
     color: var(--ink);
@@ -308,8 +311,8 @@ const action = formReady ? `https://formspree.io/f/${formspreeFormId}` : undefin
 
   .quote-form .button {
     margin-top: 1.1rem;
-    background: var(--gold);
-    color: var(--navy);
+    background: var(--navy);
+    color: var(--white);
   }
 
   @media (prefers-reduced-motion: reduce) {

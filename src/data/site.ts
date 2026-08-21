@@ -11,7 +11,7 @@ import heroRopeAccess from "../assets/images/hero-rope-access.jpg";
 import heroWindowDetail from "../assets/images/hero-window-detail.jpg";
 import heroClinicalCleaner from "../assets/images/hero-clinical-cleaner.jpg";
 import serviceContract from "../assets/images/service-contract.png";
-import serviceDeep from "../assets/images/service-deep.png";
+import serviceDeep from "../assets/images/service-deep.jpg";
 import serviceFloor from "../assets/images/service-floor.png";
 import serviceWindow from "../assets/images/service-window.png";
 import serviceWashroom from "../assets/images/service-washroom.png";
@@ -186,7 +186,7 @@ export const services: Service[] = [
       "Periodic, thorough work beyond the daily routine — edges, fixtures, and the places that quietly collect wear.",
     image: serviceDeep,
     imageAlt:
-      "Gloved hands carefully cleaning a stone kitchenette counter during a detailed deep clean.",
+      "A team in uniform deep cleaning an office — vacuuming carpets, mopping floors, and detailing glass.",
   },
   {
     id: "washroom-services",
