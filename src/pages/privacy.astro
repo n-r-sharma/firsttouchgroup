@@ -1,0 +1,110 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { contact, site } from "../data/site.ts";
+---
+
+<BaseLayout
+  title={`Privacy — ${site.name}`}
+  description="How First Touch Group handles enquiry data, cookies, and your privacy rights."
+  canonicalPath="/privacy"
+>
+  <main id="main">
+    <article class="slab privacy">
+      <div class="section">
+        <p class="eyebrow">Legal</p>
+        <h1>Privacy notice</h1>
+        {!site.privacyLegallyReviewed && (
+          <p class="privacy__banner" role="note">
+            This draft is awaiting legal review and must not be treated as the production privacy policy.
+          </p>
+        )}
+        <p class="lede">
+          This notice explains how {site.legalName} uses personal data collected through this website. It is written
+          for the United Kingdom.
+        </p>
+
+        <h2>Who we are</h2>
+        <p>
+          {site.legalName} provides commercial cleaning and workplace services across {contact.serviceArea}. For
+          privacy questions, contact
+          <a href={`mailto:${contact.email}`}>{contact.email}</a>.
+        </p>
+
+        <h2>What we collect</h2>
+        <p>
+          The quote form collects your name, company or property name, work email, optional phone number, postcode,
+          property type, selected services, and any brief you choose to send. We use this to respond to your enquiry
+          and prepare a proposal.
+        </p>
+
+        <h2>How enquiries are processed</h2>
+        <p>
+          Form submissions are processed by Formspree on our behalf, then stored so we can reply. We do not sell
+          enquiry data. We keep enquiries only as long as needed to handle the request and any resulting contract,
+          unless a longer legal retention period applies.
+        </p>
+
+        <h2>Cookies and analytics</h2>
+        <p>
+          Necessary cookies keep the site working. Google Analytics 4 is loaded only after you actively accept
+          analytics cookies. Cookiebot is the production consent tool once its domain group ID is configured. You can
+          change your mind at any time using Cookie settings in the footer. Rejecting analytics does not affect the
+          quote form.
+        </p>
+
+        <h2>Lawful basis</h2>
+        <p>
+          We handle quote enquiries as a step toward a potential contract, or because you have asked us to respond.
+          Analytics cookies, when used, rely on consent.
+        </p>
+
+        <h2>Your rights</h2>
+        <p>
+          You can ask for access, correction, deletion, restriction, or objection, and you may complain to the
+          Information Commissioner’s Office. Contact us at
+          <a href={`mailto:${contact.email}`}>{contact.email}</a>.
+        </p>
+      </div>
+    </article>
+  </main>
+</BaseLayout>
+
+<style>
+  .privacy {
+    margin: 0 0.85rem 0.85rem;
+  }
+
+  h1 {
+    font-size: var(--step-3);
+    margin: 0.4rem 0 1rem;
+  }
+
+  h2 {
+    font-size: var(--step-1);
+    margin: 2rem 0 0.6rem;
+  }
+
+  p {
+    max-width: 42rem;
+    color: var(--muted);
+  }
+
+  a {
+    color: var(--ink);
+    font-weight: 600;
+  }
+
+  .privacy__banner {
+    background: #f6e4e1;
+    color: var(--error);
+    padding: 0.8rem 1rem;
+    border-radius: 0.9rem;
+    margin: 0 0 1.25rem;
+  }
+
+  @media (min-width: 48rem) {
+    .privacy {
+      margin: 0 1rem 1rem;
+    }
+  }
+</style>

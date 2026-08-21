@@ -1,0 +1,83 @@
+---
+import { contact, site } from "../data/site.ts";
+
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="site-footer__inner">
+    <div>
+      <p class="eyebrow">{site.name}</p>
+      <p class="site-footer__tag">{site.tagline}</p>
+    </div>
+    <div class="site-footer__meta">
+      <p>
+        <a href={`mailto:${contact.email}`} data-track="contact_click" data-method="email">{contact.email}</a>
+      </p>
+      <p>
+        <a href={contact.phoneHref} data-track="contact_click" data-method="phone">{contact.phoneDisplay}</a>
+      </p>
+      <p>{contact.serviceArea}</p>
+      <p>
+        <a href="/privacy">Privacy</a>
+        ·
+        <button type="button" data-cookie-settings>Cookie settings</button>
+      </p>
+      <p>© {year} {site.legalName}</p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    color: rgb(243 238 228 / 0.82);
+    padding: clamp(4rem, 8vw, 7rem) var(--gutter) 3rem;
+    border-top: 1px solid rgb(243 238 228 / 0.2);
+  }
+
+  .site-footer__inner {
+    width: min(100%, var(--content));
+    margin-inline: auto;
+    display: grid;
+    gap: 1.5rem;
+  }
+
+  .site-footer__tag {
+    margin-top: 0.4rem;
+    font-family: var(--font-serif);
+    font-style: italic;
+    max-width: 18ch;
+    font-size: clamp(1.8rem, 3vw, 3rem);
+    line-height: 1.05;
+    color: var(--ivory);
+  }
+
+  .site-footer__meta {
+    display: grid;
+    gap: 0.35rem;
+    font-size: var(--step--1);
+  }
+
+  a,
+  button {
+    color: inherit;
+    background: none;
+    border: 0;
+    padding: 0;
+    font: inherit;
+    cursor: pointer;
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+
+  @media (min-width: 64rem) {
+    .site-footer__inner {
+      grid-template-columns: 1fr auto;
+      align-items: end;
+    }
+
+    .site-footer__meta {
+      text-align: right;
+    }
+  }
+</style>

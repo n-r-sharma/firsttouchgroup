@@ -1,0 +1,130 @@
+---
+import { contact, site } from "../data/site.ts";
+---
+
+<section class="slab promise-section" aria-labelledby="promise-heading">
+  <div class="section promise">
+    <div class="promise__masthead">
+      <p class="eyebrow">The First Touch promise</p>
+      <p class="promise__locale">{contact.serviceArea}</p>
+    </div>
+    <h2 id="promise-heading" aria-label={site.tagline}>
+      <span class="promise__headline" aria-hidden="true">
+        <span class="promise__headline-line">The standard behind</span>
+        <em class="promise__headline-line promise__headline-line--accent">every first impression.</em>
+      </span>
+    </h2>
+    <div class="promise__foot">
+      <p class="lede">
+        A vetted, well-presented team works carefully around your people and guests, with a finish that holds up after the first week.
+      </p>
+      <p class="promise__note">
+        SafeContractor accreditation is in progress and is not yet listed among our credentials.
+      </p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .promise-section {
+    position: relative;
+  }
+
+  .promise {
+    display: grid;
+    gap: clamp(2rem, 4.5vw, 4rem);
+    padding-block: clamp(6rem, 12vw, 11rem) clamp(5rem, 9vw, 9rem);
+  }
+
+  .promise__masthead {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    padding-top: 1.4rem;
+    border-top: 1px solid rgb(20 32 51 / 0.42);
+  }
+
+  .promise__locale {
+    margin: 0;
+    color: var(--muted);
+    font-size: var(--step--1);
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  h2 {
+    max-width: none;
+    font-size: clamp(3rem, 6.6vw, 7rem);
+    font-weight: 460;
+    line-height: 0.98;
+    letter-spacing: -0.055em;
+  }
+
+  .promise__headline,
+  .promise__headline-line {
+    display: block;
+  }
+
+  .promise__headline {
+    display: grid;
+    gap: 0.04em;
+  }
+
+  .promise__headline-line--accent {
+    margin-left: 0;
+  }
+
+  h2 em {
+    display: block;
+    color: var(--gold-on-light);
+    white-space: nowrap;
+  }
+
+  .promise__foot {
+    display: grid;
+    gap: 1.5rem;
+    padding-top: 1.75rem;
+    border-top: 1px solid rgb(20 32 51 / 0.12);
+  }
+
+  .lede {
+    max-width: 34rem;
+    color: var(--ink);
+  }
+
+  .promise__note {
+    max-width: 26rem;
+    color: var(--muted);
+    font-size: var(--step--1);
+  }
+
+  @media (min-width: 64rem) {
+    .promise__foot {
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: start;
+      gap: clamp(3rem, 8vw, 9rem);
+    }
+  }
+
+  @media (max-width: 47.99rem) {
+    h2 {
+      font-size: clamp(2.75rem, 12.3vw, 4rem);
+    }
+
+    .promise__headline-line--accent {
+      font-size: clamp(2.1rem, 10.5vw, 3.4rem);
+    }
+
+    h2 em {
+      white-space: nowrap;
+    }
+
+    .promise__masthead {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.4rem;
+    }
+  }
+</style>

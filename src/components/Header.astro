@@ -1,0 +1,315 @@
+---
+import { Image } from "astro:assets";
+import logo from "../assets/brand/logo-header.png";
+import { navigation, site } from "../data/site.ts";
+
+const isHome = Astro.url.pathname === "/";
+---
+
+<header
+  class:list={["site-header", !isHome && "site-header--solid"]}
+  data-overlay-header={isHome ? "true" : undefined}
+>
+  <div class="site-header__bar">
+    <a class="site-header__brand" href="/#top" data-logo-link>
+      <Image src={logo} alt={`${site.name} logo`} class="site-header__logo" inferSize />
+    </a>
+
+    <nav class="site-header__nav" aria-label="Primary">
+      {navigation.map((item) => (
+        <a href={item.href}>{item.label}</a>
+      ))}
+    </nav>
+
+    <div class="site-header__end">
+      <a class="button site-header__cta" href="/#quote">Request a quote</a>
+      <button
+        class="site-header__menu-btn"
+        type="button"
+        data-menu-open
+        aria-controls="site-menu"
+        aria-expanded="false"
+      >
+        <span class="site-header__menu-icon" aria-hidden="true"><span></span><span></span></span>
+        <span class="visually-hidden">Menu</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<dialog class="site-menu" id="site-menu" data-menu-dialog>
+  <form method="dialog" class="site-menu__top">
+    <p class="eyebrow">Navigate</p>
+    <button class="button button--quiet" type="submit" data-menu-close>Close</button>
+  </form>
+  <nav class="site-menu__nav" aria-label="Mobile">
+    {navigation.map((item) => (
+      <a href={item.href} data-menu-link>{item.label}</a>
+    ))}
+    <a class="button" href="/#quote" data-menu-link>Request a quote</a>
+  </nav>
+</dialog>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 40;
+    background: var(--white);
+    color: var(--ink);
+    border-bottom: 1px solid rgb(20 32 51 / 0.16);
+    transition:
+      background-color var(--duration) var(--ease),
+      color var(--duration) var(--ease),
+      border-color var(--duration) var(--ease);
+  }
+
+  .site-header[data-overlay-header="true"] {
+    position: fixed;
+    left: 0;
+    right: 0;
+    background: transparent;
+    color: var(--white);
+    border-color: rgb(255 255 255 / 0.28);
+  }
+
+  .site-header[data-overlay-header="true"].is-scrolled {
+    background: var(--white);
+    color: var(--ink);
+    border-color: rgb(20 32 51 / 0.16);
+  }
+
+  .site-header__bar {
+    width: min(100%, var(--content));
+    margin-inline: auto;
+    display: flex;
+    align-items: center;
+    gap: clamp(1rem, 3vw, 3rem);
+    min-height: 5.25rem;
+    padding-inline: var(--gutter);
+    background: transparent;
+  }
+
+  .site-header__brand {
+    display: flex;
+    align-items: center;
+    flex: 0 0 auto;
+    text-decoration: none;
+    border-radius: 0;
+    min-height: 3rem;
+  }
+
+  .site-header__logo {
+    width: clamp(8.5rem, 11vw, 10.75rem);
+    height: 3rem;
+    object-fit: contain;
+    object-position: left center;
+    transition: filter var(--duration) var(--ease);
+  }
+
+  .site-header[data-overlay-header="true"]:not(.is-scrolled) .site-header__logo {
+    filter: invert(1) grayscale(1) contrast(1.8);
+    mix-blend-mode: screen;
+  }
+
+  .site-header__nav {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    gap: 0.2rem clamp(1rem, 2.1vw, 2.1rem);
+    flex: 1;
+    font-size: var(--step--1);
+    font-weight: 650;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .site-header__nav a {
+    text-decoration: none;
+    padding: 0.65rem 0;
+    border-bottom: 1px solid transparent;
+    transition: border-color var(--duration) var(--ease);
+  }
+
+  .site-header__end {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  .site-header__cta {
+    display: none;
+  }
+
+  .site-header[data-overlay-header="true"]:not(.is-scrolled) .site-header__cta {
+    background: var(--white);
+    color: var(--ink);
+  }
+
+  .site-header__menu-btn {
+    display: grid;
+    place-items: center;
+    width: 3rem;
+    min-height: 3rem;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: currentColor;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 160ms var(--ease);
+  }
+
+  .site-header__menu-icon {
+    display: grid;
+    gap: 0.45rem;
+    width: 1.45rem;
+  }
+
+  .site-header__menu-icon span {
+    display: block;
+    height: 1px;
+    background: currentColor;
+  }
+
+  .site-header__menu-btn:active {
+    transform: scale(0.96);
+  }
+
+  .site-menu {
+    width: min(calc(100vw - 1.5rem), 28rem);
+    max-height: min(80vh, 40rem);
+    border: 0;
+    border-radius: 1.5rem;
+    padding: 1.25rem;
+    background: var(--ivory);
+    color: var(--ink);
+    box-shadow: var(--shadow-soft);
+    opacity: 0;
+    transform: scale(0.97);
+    transition:
+      opacity 150ms var(--ease),
+      transform 150ms var(--ease),
+      overlay 150ms allow-discrete,
+      display 150ms allow-discrete;
+  }
+
+  .site-menu[open] {
+    opacity: 1;
+    transform: scale(1);
+    transition-duration: 220ms;
+  }
+
+  @starting-style {
+    .site-menu[open] {
+      opacity: 0;
+      transform: scale(0.97);
+    }
+  }
+
+  .site-menu::backdrop {
+    background: rgb(11 24 40 / 0);
+    transition:
+      background-color 150ms var(--ease),
+      overlay 150ms allow-discrete,
+      display 150ms allow-discrete;
+  }
+
+  .site-menu[open]::backdrop {
+    background: rgb(11 24 40 / 0.62);
+    transition-duration: 160ms;
+  }
+
+  @starting-style {
+    .site-menu[open]::backdrop {
+      background: rgb(11 24 40 / 0);
+    }
+  }
+
+  .site-menu__top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.25rem;
+  }
+
+  .site-menu__nav {
+    display: grid;
+    gap: 0.35rem;
+  }
+
+  .site-menu__nav a {
+    text-decoration: none;
+    font-size: var(--step-1);
+    font-weight: 600;
+    padding: 0.7rem 0.2rem;
+    border-bottom: 1px solid rgb(20 32 51 / 0.08);
+  }
+
+  .site-menu__nav .button {
+    margin-top: 1rem;
+    border-bottom: 0;
+  }
+
+  @media (min-width: 64rem) {
+    .site-header__nav,
+    .site-header__cta {
+      display: flex;
+    }
+
+    .site-header__menu-btn {
+      display: none;
+    }
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .site-header__nav a:hover {
+      border-color: currentColor;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .site-header,
+    .site-header__logo {
+      transition-duration: 120ms;
+    }
+
+    .site-menu,
+    .site-menu[open] {
+      transform: none;
+      transition-duration: 120ms;
+    }
+
+    @starting-style {
+      .site-menu[open] {
+        transform: none;
+      }
+    }
+
+    .site-menu::backdrop,
+    .site-menu[open]::backdrop {
+      transition-duration: 120ms;
+    }
+  }
+
+  @media (max-width: 30rem) {
+    .site-header__bar {
+      min-height: 4.75rem;
+    }
+
+    .site-header__logo {
+      width: 7.5rem;
+      height: 2.6rem;
+    }
+  }
+</style>
+
+<script>
+  const overlayHeader = document.querySelector<HTMLElement>("[data-overlay-header='true']");
+  if (overlayHeader) {
+    const updateHeader = () => overlayHeader.classList.toggle("is-scrolled", window.scrollY > 24);
+    updateHeader();
+    window.addEventListener("scroll", updateHeader, { passive: true });
+  }
+</script>

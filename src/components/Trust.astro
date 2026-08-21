@@ -1,0 +1,106 @@
+---
+import { trustItems } from "../data/site.ts";
+---
+
+<section class="slab trust-section" aria-labelledby="trust-heading">
+  <div class="section">
+    <div class="trust-slab grain">
+      <div class="trust-slab__header">
+        <p class="eyebrow">Why First Touch</p>
+        <h2 id="trust-heading">A cleaning team you know, backed by <em>visible checks.</em></h2>
+      </div>
+      <ul class="trust-grid">
+        {trustItems.map((item, index) => (
+          <li>
+            <span class="trust-grid__index">{String(index + 1).padStart(2, "0")}</span>
+            <h3>{item.title}</h3>
+            <p>{item.body}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+</section>
+
+<style>
+  .section {
+    padding-block: clamp(3rem, 6vw, 6rem);
+  }
+
+  .trust-slab {
+    position: relative;
+    border-radius: var(--radius-slab);
+    background:
+      radial-gradient(140% 120% at 85% -10%, var(--navy-soft) 0%, transparent 55%),
+      var(--navy-mid);
+    color: var(--ivory);
+    padding: clamp(2rem, 5vw, 5rem);
+    display: grid;
+    gap: clamp(2.5rem, 5vw, 5rem);
+    overflow: hidden;
+    box-shadow: var(--shadow-card);
+  }
+
+  .trust-slab > * {
+    position: relative;
+    z-index: 1;
+  }
+
+  .trust-slab__header {
+    display: grid;
+    gap: 1rem;
+    max-width: 52rem;
+  }
+
+  h2 {
+    font-size: clamp(2.5rem, 4.7vw, 5rem);
+    font-weight: 480;
+    line-height: 1;
+  }
+
+  h2 em {
+    color: var(--gold-on-dark);
+  }
+
+  .trust-grid {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 2.25rem 1.5rem;
+  }
+
+  li {
+    padding: 1.5rem 0 0;
+    border-top: 1px solid rgb(243 238 228 / 0.28);
+    display: grid;
+    gap: 0.6rem;
+  }
+
+  .trust-grid__index {
+    color: var(--gold-on-dark);
+    font-size: var(--step--1);
+    font-weight: 700;
+    letter-spacing: 0.12em;
+  }
+
+  h3 {
+    font-size: var(--step-1);
+  }
+
+  li p {
+    color: rgb(243 238 228 / 0.74);
+  }
+
+  @media (min-width: 48rem) {
+    .trust-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (min-width: 80rem) {
+    .trust-grid {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+</style>
